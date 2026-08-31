@@ -1,34 +1,34 @@
 package com.vamsi.ct_pl_pnintegration
 
-import android.app.Application
 import android.app.NotificationManager
 import android.util.Log
 import com.clevertap.android.pushtemplates.PushTemplateNotificationHandler
-import com.clevertap.android.sdk.ActivityLifecycleCallback
+import com.clevertap.android.sdk.Application as CleverTapApplication
 import com.clevertap.android.sdk.CleverTapAPI
-import com.google.firebase.messaging.FirebaseMessaging
-import com.vamsi.ct_pl_pnintegration.push.PushProviderRegistry
 import so.plotline.insights.Activities.PlotlineNotificationListener
 import so.plotline.insights.Models.PlotlineNotificationConfig
 import so.plotline.insights.Plotline
 import so.plotline.insights.PlotlinePush
 
-class CTPLApplication : Application() {
+/**
+ * CleverTap auto-integration (minimal code):
+ *  - Extends the CleverTap SDK [CleverTapApplication], which registers the
+ *    activity lifecycle callbacks automatically (no manual register() call).
+ *  - FCM push rendering and token sync are handled automatically by CleverTap's
+ *    own FcmMessageListenerService declared in AndroidManifest.xml.
+ */
+class CTPLApplication : CleverTapApplication() {
 
     override fun onCreate() {
-        // CleverTap: register activity lifecycle callbacks BEFORE super.onCreate()
-        // so that app launches, in-app notifications etc. are tracked correctly.
-        ActivityLifecycleCallback.register(this)
         super.onCreate()
 
         setupCleverTap()
         setupPlotline()
-        syncFcmToken()
     }
 
     private fun setupCleverTap() {
         // Rich media push: route notification rendering through the Push Templates SDK
-        // (carousel, timer, text-over-image, five icons, rating, product catalog, etc.)
+        // (carousel, timer, text-over-image, five icons, rating, product catalog, etc.).
         // PushTemplateNotificationHandler implements NotificationHandler transitively
         // (via ActionButtonClickHandler), so no cast is needed.
         CleverTapAPI.setNotificationHandler(PushTemplateNotificationHandler())
@@ -68,22 +68,6 @@ class CTPLApplication : Application() {
                 }
             }
         )
-    }
-
-    /**
-     * Passes the current FCM token to every registered push provider.
-     * Token refreshes are delivered to [push.MyFcmMessagingService.onNewToken],
-     * which fans them out through the same registry.
-     */
-    @Suppress("DEPRECATION") // token/getToken() deprecated in favor of FID; CleverTap/Plotline still require the classic token
-    private fun syncFcmToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM token failed", task.exception)
-                return@addOnCompleteListener
-            }
-            PushProviderRegistry.default.onNewToken(applicationContext, task.result)
-        }
     }
 
     companion object {

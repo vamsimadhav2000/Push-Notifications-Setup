@@ -39,9 +39,11 @@
             android:name="CLEVERTAP_NOTIFICATION_ICON"
             android:value="ic_notification_small" />
 
-        <!-- Custom FCM service routing CleverTap + Plotline push payloads -->
+        <!-- CleverTap auto-integrated FCM service: renders push notifications and
+             syncs the FCM token automatically (no custom FirebaseMessagingService).
+             Swap this out for a router service when adding another push provider. -->
         <service
-            android:name=".push.MyFcmMessagingService"
+            android:name="com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
