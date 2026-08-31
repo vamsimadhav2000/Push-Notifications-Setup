@@ -95,15 +95,19 @@ class MainActivity : ComponentActivity() {
     /**
      * CleverTap delivers the full push payload as intent extras on notification
      * tap (cold start in onCreate, warm start in onNewIntent). If the payload is
-     * from CleverTap and carries a "deeplink" custom key-value pair, surface it
-     * to the UI as a modal.
+     * from CleverTap and carries a deep link, surface it to the UI as a modal.
+     *
+     * The deep link is read from CleverTap's reserved "Deep link" dashboard field
+     * (wzrk_dl) first, falling back to a "deeplink" custom key-value pair.
      */
     private fun handlePushExtras(intent: Intent?) {
         val extras = intent?.extras ?: return
         if (CleverTapAPI.getNotificationInfo(extras).fromCleverTap) {
-            extras.getString(DEEP_LINK_KEY)?.let {
-                Log.d(TAG, "CleverTap deeplink received: $it")
-                DeepLinkModalManager.present("CleverTap", it)
+            val deepLink = extras.getString(WZRK_DL_KEY)
+                ?: extras.getString(DEEP_LINK_KEY)
+            if (deepLink != null) {
+                Log.d(TAG, "CleverTap deeplink received: $deepLink")
+                DeepLinkModalManager.present("CleverTap", deepLink)
             }
         }
     }
@@ -166,6 +170,10 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+
+        // CleverTap's reserved "Deep link" dashboard field. The SDK constant
+        // Constants.DEEP_LINK_KEY is @RestrictTo(LIBRARY), so it's hardcoded.
+        private const val WZRK_DL_KEY = "wzrk_dl"
 
         /** Custom key-value pair set on push campaigns to carry the deeplink. */
         private const val DEEP_LINK_KEY = "deeplink"

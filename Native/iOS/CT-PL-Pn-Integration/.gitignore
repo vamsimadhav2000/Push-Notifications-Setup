@@ -1,0 +1,23 @@
+# Secrets - never commit real credentials
+secrets.properties
+
+# CocoaPods
+Pods/
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+project.xcworkspace/xcuserdata/
+
+# Build artifacts
+DerivedData/
+build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# macOS
+.DS_Store
+
+# Xcode user-specific schemes
+xcshareddata/xcschemes/
