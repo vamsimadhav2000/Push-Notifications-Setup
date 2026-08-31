@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Required to allow the app to send events and user profile information -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Recommended so that CleverTap knows when to attempt a network call -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Required to show push notifications on Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Required for the Timer with Progress Bar push template on Android 12+ -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+    <application
+        android:name=".CTPLApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.CTPLPnIntegration">
+
+        <!-- CleverTap credentials: injected at build time from secrets.properties
+             (or env vars) via manifestPlaceholders. See app/build.gradle.kts. -->
+        <meta-data
+            android:name="CLEVERTAP_ACCOUNT_ID"
+            android:value="${clevertapAccountId}" />
+        <meta-data
+            android:name="CLEVERTAP_TOKEN"
+            android:value="${clevertapToken}" />
+        <!-- Region code from your CleverTap account (e.g. in1, us1, sg1, eu1) -->
+        <meta-data
+            android:name="CLEVERTAP_REGION"
+            android:value="${clevertapRegion}" />
+        <!-- Small notification icon: drawable file name WITHOUT extension -->
+        <meta-data
+            android:name="CLEVERTAP_NOTIFICATION_ICON"
+            android:value="ic_notification_small" />
+
+        <!-- Custom FCM service routing CleverTap + Plotline push payloads -->
+        <service
+            android:name=".push.MyFcmMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Tracks CleverTap push notification clicks and dismissals -->
+        <receiver
+            android:name="com.clevertap.android.sdk.pushnotification.CTPushNotificationReceiver"
+            android:exported="false"
+            android:enabled="true" />
+
+        <!-- Handles Plotline push notification clicks -->
+        <activity
+            android:name="so.plotline.insights.Activities.PlotlinePushActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.CTPLPnIntegration">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Custom scheme deep link: ctplpn://deeplink/... (e.g. ctplpn://deeplink/home) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="ctplpn"
+                    android:host="deeplink" />
+            </intent-filter>
+
+            <!-- Verified App Link: https://yourdomain.com/ctplpn/...
+                 Requires hosting assetlinks.json on the domain for auto-open on Android 12+.
+                 Replace yourdomain.com with a domain you own. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="yourdomain.com"
+                    android:pathPrefix="/ctplpn" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
