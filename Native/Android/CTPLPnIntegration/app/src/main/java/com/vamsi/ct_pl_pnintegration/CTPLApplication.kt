@@ -7,6 +7,7 @@ import com.clevertap.android.pushtemplates.PushTemplateNotificationHandler
 import com.clevertap.android.sdk.ActivityLifecycleCallback
 import com.clevertap.android.sdk.CleverTapAPI
 import com.google.firebase.messaging.FirebaseMessaging
+import com.vamsi.ct_pl_pnintegration.push.PushProviderRegistry
 import so.plotline.insights.Activities.PlotlineNotificationListener
 import so.plotline.insights.Models.PlotlineNotificationConfig
 import so.plotline.insights.Plotline
@@ -70,8 +71,9 @@ class CTPLApplication : Application() {
     }
 
     /**
-     * Passes the current FCM token to both CleverTap and Plotline.
-     * New tokens are also delivered to [push.MyFcmMessagingService.onNewToken].
+     * Passes the current FCM token to every registered push provider.
+     * Token refreshes are delivered to [push.MyFcmMessagingService.onNewToken],
+     * which fans them out through the same registry.
      */
     @Suppress("DEPRECATION") // token/getToken() deprecated in favor of FID; CleverTap/Plotline still require the classic token
     private fun syncFcmToken() {
@@ -80,10 +82,7 @@ class CTPLApplication : Application() {
                 Log.w(TAG, "Fetching FCM token failed", task.exception)
                 return@addOnCompleteListener
             }
-            val token = task.result
-            CleverTapAPI.getDefaultInstance(applicationContext)
-                ?.pushFcmRegistrationId(token, true)
-            PlotlinePush.setFcmToken(applicationContext, token)
+            PushProviderRegistry.default.onNewToken(applicationContext, task.result)
         }
     }
 

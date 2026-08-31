@@ -48,11 +48,7 @@
             </intent-filter>
         </service>
 
-        <!-- Tracks CleverTap push notification clicks and dismissals -->
-        <receiver
-            android:name="com.clevertap.android.sdk.pushnotification.CTPushNotificationReceiver"
-            android:exported="false"
-            android:enabled="true" />
+        <!-- CleverTap's CTPushNotificationReceiver + RenderMax receiver are auto-merged from the SDK. -->
 
         <!-- Handles Plotline push notification clicks -->
         <activity
