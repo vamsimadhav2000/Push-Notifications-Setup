@@ -12,7 +12,7 @@ clevertap = "8.4.1"
 clevertapPushTemplates = "2.5.0"
 firebaseBom = "34.18.0"
 googleServices = "4.5.0"
-plotline = "4.4.7"
+plotline = "5.2.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

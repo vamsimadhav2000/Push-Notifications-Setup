@@ -13,16 +13,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.clevertap.android.sdk.CleverTapAPI
+import com.vamsi.ct_pl_pnintegration.deeplink.DeepLinkModalManager
 import com.vamsi.ct_pl_pnintegration.ui.theme.CTPLPnIntegrationTheme
 import org.json.JSONObject
 import so.plotline.insights.Listeners.PlotlineEventsListener
@@ -46,6 +51,7 @@ class MainActivity : ComponentActivity() {
         setupPlotline()
         requestPushPermission()
         handleDeepLink(intent)
+        handlePushExtras(intent)
 
         setContent {
             CTPLPnIntegrationTheme {
@@ -73,6 +79,7 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         handleDeepLink(intent)
+        handlePushExtras(intent)
     }
 
     /**
@@ -83,6 +90,22 @@ class MainActivity : ComponentActivity() {
         val uri = intent?.data ?: return
         Log.d(TAG, "Deep link received: $uri")
         // TODO: navigate based on uri.host / uri.path here.
+    }
+
+    /**
+     * CleverTap delivers the full push payload as intent extras on notification
+     * tap (cold start in onCreate, warm start in onNewIntent). If the payload is
+     * from CleverTap and carries a "deeplink" custom key-value pair, surface it
+     * to the UI as a modal.
+     */
+    private fun handlePushExtras(intent: Intent?) {
+        val extras = intent?.extras ?: return
+        if (CleverTapAPI.getNotificationInfo(extras).fromCleverTap) {
+            extras.getString(DEEP_LINK_KEY)?.let {
+                Log.d(TAG, "CleverTap deeplink received: $it")
+                DeepLinkModalManager.present("CleverTap", it)
+            }
+        }
     }
 
     private fun identifyCleverTapUser() {
@@ -143,6 +166,9 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+
+        /** Custom key-value pair set on push campaigns to carry the deeplink. */
+        private const val DEEP_LINK_KEY = "deeplink"
     }
 }
 
@@ -152,6 +178,8 @@ fun HomeScreen(
     onTrackCleverTapEvent: () -> Unit = {},
     onTrackPlotlineEvent: () -> Unit = {}
 ) {
+    val deepLink by DeepLinkModalManager.deepLink.collectAsState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -176,6 +204,20 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
+        )
+    }
+
+    // Modal shown when a push notification carries deeplink data.
+    deepLink?.let { data ->
+        AlertDialog(
+            onDismissRequest = { DeepLinkModalManager.dismiss() },
+            title = { Text("Deeplink from ${data.source}") },
+            text = { Text(data.deepLink) },
+            confirmButton = {
+                TextButton(onClick = { DeepLinkModalManager.dismiss() }) {
+                    Text("OK")
+                }
+            }
         )
     }
 }
