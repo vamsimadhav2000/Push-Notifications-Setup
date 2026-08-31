@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Required to allow the app to send events and user profile information -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Recommended so that MoEngage knows when to attempt a network call -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Required to show push notifications on Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- MoEngage push notifications can vibrate -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- MoEngage syncs and displays push notifications after reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Required for the Plotline "Timer with Progress Bar" push template on Android 12+ -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
+        android:name=".MoEApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -11,15 +24,78 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MoEPLPnIntegration">
+
+        <!--
+            Router FCM service: a single FirebaseMessagingService for the whole app.
+            It auto-identifies each incoming payload (MoEngage via
+            MoEPushHelper.isFromMoEngagePlatform, Plotline via
+            PlotlinePush.isPushPlotline) and delegates to the owning provider via
+            PushProviderRegistry. MoEngagePushProvider internally forwards to
+            MoEFireBaseHelper (the exact handler MoEngage's auto-integration
+            MoEFireBaseMessagingService runs), so MoEngage behaviour (rich media,
+            push templates, click tracking, in-app) is identical to a pure
+            MoEngage auto-integration.
+        -->
+        <service
+            android:name=".push.MyFcmMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--
+            MoEngage does not merge its own FCM service in SDK 14.x; push is
+            driven entirely through MoEFireBaseHelper.passPushPayload /
+            passPushToken from MoEngagePushProvider (below), which is the exact
+            handler MoEngage's MoEFireBaseMessagingService would run. Keep this
+            service as the only receiver of MESSAGING_EVENT.
+        -->
+        <!-- MoEngage receivers/activities for push rendering, in-app, and rich
+             landing (MoEActivity) are auto-merged from the MoEngage modules. -->
+
+        <!-- Handles Plotline push notification clicks -->
+        <activity
+            android:name="so.plotline.insights.Activities.PlotlinePushActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:label="@string/app_name"
             android:theme="@style/Theme.MoEPLPnIntegration">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Custom scheme deep link: moeplpn://deeplink/... (e.g. moeplpn://deeplink/home) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="moeplpn"
+                    android:host="deeplink" />
+            </intent-filter>
+
+            <!-- Verified App Link: https://yourdomain.com/moeplpn/...
+                 Requires hosting assetlinks.json on the domain for auto-open on Android 12+.
+                 Replace yourdomain.com with a domain you own. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="yourdomain.com"
+                    android:pathPrefix="/moeplpn" />
             </intent-filter>
         </activity>
     </application>

@@ -16,6 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Plotline Android SDK repository
+        maven {
+            url = uri("https://android-sdk.plotline.so")
+        }
     }
 }
 
