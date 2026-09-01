@@ -63,7 +63,6 @@ class MoEApplication : android.app.Application() {
             )
             .build()
         MoEngage.initialiseDefaultInstance(moEngage)
-        MoEPushHelper.getInstance().isSelfHandledNotification()
 
         // Default notification channels for MoEngage campaigns (Android O+).
         MoEPushHelper.getInstance().setUpNotificationChannels(this)
