@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local secrets - never commit these. Copy secrets.env.example -> secrets.env
+# and fill in real values. Same for android google-services.json and iOS Secrets.xcconfig.
+secrets.env
+**/google-services.json
+ios/Flutter/Secrets.xcconfig

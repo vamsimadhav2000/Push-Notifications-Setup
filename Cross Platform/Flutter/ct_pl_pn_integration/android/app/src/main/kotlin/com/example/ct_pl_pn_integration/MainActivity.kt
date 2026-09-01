@@ -1,5 +1,6 @@
 package com.example.ct_pl_pn_integration
 
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity()
+// FlutterFragmentActivity supports CleverTap Header & Footer InApp Notification Templates.
+class MainActivity : FlutterFragmentActivity()
