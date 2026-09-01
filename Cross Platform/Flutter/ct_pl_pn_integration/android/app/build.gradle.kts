@@ -77,6 +77,9 @@ flutter {
 dependencies {
     // CleverTap FCM push + rich media rendering.
     implementation("com.google.firebase:firebase-messaging:24.0.0")
+    // CleverTap Push Templates SDK: renders rich media templates (timer, carousel,
+    // rating, ...). Handled via NotificationService -> CTFcmMessageHandler.
+    implementation("com.clevertap.android:push-templates:2.2.0")
     implementation("com.android.installreferrer:installreferrer:2.2")
     implementation("androidx.core:core:1.13.1")
     implementation("androidx.fragment:fragment:1.7.0")

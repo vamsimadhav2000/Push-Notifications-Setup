@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ct_pl_pn_integration",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file=secrets.env"
+            ]
+        },
+        {
+            "name": "ct_pl_pn_integration (device)",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file=secrets.env"
+            ]
+        }
+    ]
+}

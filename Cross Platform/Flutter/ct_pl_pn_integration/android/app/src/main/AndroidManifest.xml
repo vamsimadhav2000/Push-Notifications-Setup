@@ -45,16 +45,22 @@
             android:name="CLEVERTAP_TOKEN"
             android:value="${CLEVERTAP_ACCOUNT_TOKEN}"/>
 
-        <!-- CleverTap auto-integrated FCM service: renders push notifications and
-             syncs the FCM token automatically (no custom FirebaseMessagingService).
-             Swap this out for a router service when adding another push provider. -->
+        <!-- Single FCM router service so CleverTap + Plotline share one pipeline
+             (see NotificationService.kt). Replaces CleverTap's auto-integrated
+             FcmMessageListenerService (which the router calls internally). -->
         <service
-            android:name="com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService"
+            android:name=".NotificationService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <!-- Plotline push activity (deep link / notification handling). -->
+        <activity
+            android:name="so.plotline.insights.Activities.PlotlinePushActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

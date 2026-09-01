@@ -36,6 +36,14 @@ target 'Runner' do
   end
 end
 
+# Plotline Notification Service Extension - needs Plotline linked so it can render
+# rich pushes and report delivery/impression analytics.
+target 'NotificationService' do
+  use_frameworks!
+
+  pod 'Plotline'
+end
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)

@@ -5,6 +5,10 @@ PODS:
     - CleverTap-iOS-SDK (= 7.7.1)
     - Flutter
   - Flutter (1.0.0)
+  - Plotline (5.1.5)
+  - plotline_engage (1.4.0):
+    - Flutter
+    - Plotline
   - SDWebImage (5.21.7):
     - SDWebImage/Core (= 5.21.7)
   - SDWebImage/Core (5.21.7)
@@ -12,10 +16,13 @@ PODS:
 DEPENDENCIES:
   - clevertap_plugin (from `.symlinks/plugins/clevertap_plugin/ios`)
   - Flutter (from `Flutter`)
+  - Plotline
+  - plotline_engage (from `.symlinks/plugins/plotline_engage/ios`)
 
 SPEC REPOS:
   trunk:
     - CleverTap-iOS-SDK
+    - Plotline
     - SDWebImage
 
 EXTERNAL SOURCES:
@@ -23,13 +30,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/clevertap_plugin/ios"
   Flutter:
     :path: Flutter
+  plotline_engage:
+    :path: ".symlinks/plugins/plotline_engage/ios"
 
 SPEC CHECKSUMS:
   CleverTap-iOS-SDK: c80354ca6bca086bd9ea242c0ad15e859b867ea5
   clevertap_plugin: 967312b3841bf78738a922ebe1becbe6085e8029
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  Plotline: 457dc4e6e3fdec5ff651cbf4e4c02a1c3c8d3da0
+  plotline_engage: 23dc17664b7560d4a335cfdfa060663c143eaadd
   SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
 
-PODFILE CHECKSUM: 251cb053df7158f337c0712f2ab29f4e0fa474ce
+PODFILE CHECKSUM: fa07c52ee92a8c61b38b7d4e7a472379c3e5fab8
 
 COCOAPODS: 1.17.0
