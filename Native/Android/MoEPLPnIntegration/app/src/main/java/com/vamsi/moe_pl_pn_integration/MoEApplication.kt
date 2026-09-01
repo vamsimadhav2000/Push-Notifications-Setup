@@ -3,18 +3,14 @@ package com.vamsi.moe_pl_pn_integration
 import android.app.Activity
 import android.app.NotificationManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import com.google.firebase.messaging.FirebaseMessaging
 import com.moengage.core.DataCenter
 import com.moengage.core.MoEngage
-import com.moengage.core.config.FcmConfig
 import com.moengage.core.config.NotificationConfig
+import com.moengage.firebase.MoEFireBaseHelper
 import com.moengage.pushbase.MoEPushHelper
 import com.moengage.pushbase.push.PushMessageListener
 import com.vamsi.moe_pl_pn_integration.deeplink.DeepLinkModalManager
-import com.vamsi.moe_pl_pn_integration.push.PushProviderRegistry
 import org.json.JSONObject
 import so.plotline.insights.Activities.PlotlineNotificationListener
 import so.plotline.insights.Models.PlotlineNotificationConfig
@@ -23,13 +19,16 @@ import so.plotline.insights.PlotlinePush
 
 /**
  * App entry point.
- *  - Initializes the MoEngage SDK (default instance) with push metadata and
- *    FCM token registration handled by the app (see [setupMoEngage]).
+ *  - Initializes the MoEngage SDK (default instance) with push metadata. MoEngage
+ *    handles its own FCM token registration and push rendering via its auto
+ *    integration service (com.moengage.firebase.MoEFireBaseMessagingService,
+ *    declared in AndroidManifest.xml). See [setupMoEngage].
  *  - Registers Plotline and its push metadata (see [setupPlotline]).
- *  - FCM push routing (MoEngage + Plotline) is handled by the router service
- *    declared in AndroidManifest.xml (see [PushProviderRegistry]).
- *  - Syncs the FCM token to every push provider on launch so the token is
- *    always registered, even if FCM never fires onNewToken (unchanged token).
+ *  - MoEngage's auto service forwards every non-MoEngage push payload to the
+ *    NonMoEngagePushListener registered below, which routes Plotline pushes to
+ *    the Plotline SDK. The FCM token is synced to Plotline whenever MoEngage
+ *    registers/updates it (TokenAvailableListener) and once on app launch
+ *    (MoEFireBaseHelper.getPushToken) to cover installs with an unchanged token.
  */
 class MoEApplication : android.app.Application() {
 
@@ -38,15 +37,14 @@ class MoEApplication : android.app.Application() {
 
         setupMoEngage()
         setupPlotline()
-        syncFcmToken()
+        syncPlotlineToken()
     }
 
     private fun setupMoEngage() {
         // MoEngage core initialization. The workspace id and data center come
         // from BuildConfig (see app/build.gradle.kts / secrets.properties).
-        // configureFcm disables MoEngage's own token registration because our
-        // router service handles token refresh and feeds the token to MoEngage
-        // via MoEFireBaseHelper.passPushToken (see MoEngagePushProvider).
+        // Token registration is left enabled (default) - MoEngage registers and
+        // manages the FCM token itself through its auto-integration service.
         val moEngage = MoEngage.Builder(
             application = this,
             appId = BuildConfig.MOENGAGE_APP_ID,
@@ -63,14 +61,31 @@ class MoEApplication : android.app.Application() {
                     isLargeIconDisplayEnabled = true
                 )
             )
-            // App handles FCM token registration + delivery; MoEngage auto
-            // token registration is disabled.
-            .configureFcm(FcmConfig(isRegistrationEnabled = false))
             .build()
         MoEngage.initialiseDefaultInstance(moEngage)
+        MoEPushHelper.getInstance().isSelfHandledNotification()
 
         // Default notification channels for MoEngage campaigns (Android O+).
         MoEPushHelper.getInstance().setUpNotificationChannels(this)
+
+        // MoEngage's auto-integration service delivers every non-MoEngage push
+        // payload here. Route Plotline payloads to the Plotline SDK; log anything
+        // else so no provider's push is silently dropped.
+        MoEFireBaseHelper.getInstance().addNonMoEngagePushListener { message ->
+            if (PlotlinePush.isPushPlotline(message.data)) {
+                Log.d(TAG, "Routing non-MoEngage push to Plotline: ${message.data}")
+                PlotlinePush.showNotification(applicationContext, message.data)
+            } else {
+                Log.d(TAG, "Non-MoEngage push (not Plotline), keys: ${message.data.keys}")
+            }
+        }
+
+        // Whenever MoEngage registers/refreshes the FCM token, mirror it to
+        // Plotline so backend-triggered Plotline campaigns reach this device.
+        MoEFireBaseHelper.getInstance().addTokenListener { token ->
+            Log.d(TAG, "MoEngage FCM token available")
+            PlotlinePush.setFcmToken(applicationContext, token.pushToken)
+        }
 
         // MoEngage push click callback: custom key/value pairs configured on a
         // push campaign are delivered here. If a "deeplink" key is present,
@@ -120,38 +135,16 @@ class MoEApplication : android.app.Application() {
     }
 
     /**
-     * Fetches the current FCM token and fans it out to every registered push
-     * provider via [PushProviderRegistry]. Runs on every app launch so the
-     * token is always registered, independent of whether Firebase delivers a
-     * new-token callback.
-     *
-     * On a fresh install the token is generated asynchronously (Firebase
-     * Installations registration) and can be slow or fail once (e.g. no
-     * network), so a failed fetch is retried a few times instead of being a
-     * one-shot that silently loses the token.
+     * MoEngage manages the FCM token itself. On app launch the token may already
+     * exist and unchanged, in which case TokenAvailableListener (registered in
+     * [setupMoEngage]) does not fire, so read MoEngage's saved token and hand it
+     * to Plotline to guarantee the token is always registered.
      */
-    @Suppress("DEPRECATION") // token/getToken() deprecated in favor of FID; MoEngage/Plotline still require the classic token
-    private fun syncFcmToken() {
-        fetchFcmToken(attempt = 0)
-    }
-
-    private fun fetchFcmToken(attempt: Int) {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val token = task.result
-                Log.d(TAG, "FCM token fetched (${token.length} chars): $token")
-                PushProviderRegistry.onNewToken(applicationContext, token)
-                return@addOnCompleteListener
-            }
-
-            Log.w(
-                TAG,
-                "Fetching FCM token failed (attempt ${attempt + 1}/$MAX_TOKEN_FETCH_ATTEMPTS)",
-                task.exception
-            )
-            if (attempt + 1 < MAX_TOKEN_FETCH_ATTEMPTS) {
-                mainHandler.postDelayed({ fetchFcmToken(attempt + 1) }, TOKEN_RETRY_DELAY_MS)
-            }
+    private fun syncPlotlineToken() {
+        val token = MoEFireBaseHelper.getInstance().getPushToken(this)
+        if (!token.isNullOrBlank()) {
+            Log.d(TAG, "Syncing existing FCM token to Plotline")
+            PlotlinePush.setFcmToken(this, token)
         }
     }
 
@@ -160,13 +153,5 @@ class MoEApplication : android.app.Application() {
 
         /** Custom key-value pair set on push campaigns to carry the deeplink. */
         private const val DEEP_LINK_KEY = "deeplink"
-
-        /** How many times the initial FCM token fetch is attempted. */
-        private const val MAX_TOKEN_FETCH_ATTEMPTS = 3
-
-        /** Delay between token fetch retries, in milliseconds. */
-        private const val TOKEN_RETRY_DELAY_MS = 2000L
-
-        private val mainHandler = Handler(Looper.getMainLooper())
     }
 }

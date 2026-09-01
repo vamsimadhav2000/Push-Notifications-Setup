@@ -26,31 +26,24 @@
         android:theme="@style/Theme.MoEPLPnIntegration">
 
         <!--
-            Router FCM service: a single FirebaseMessagingService for the whole app.
-            It auto-identifies each incoming payload (MoEngage via
-            MoEPushHelper.isFromMoEngagePlatform, Plotline via
-            PlotlinePush.isPushPlotline) and delegates to the owning provider via
-            PushProviderRegistry. MoEngagePushProvider internally forwards to
-            MoEFireBaseHelper (the exact handler MoEngage's auto-integration
-            MoEFireBaseMessagingService runs), so MoEngage behaviour (rich media,
-            push templates, click tracking, in-app) is identical to a pure
-            MoEngage auto-integration.
+            MoEngage's auto-integration service. It receives every FCM message,
+            renders MoEngage pushes itself (rich media, push templates, in-app,
+            click tracking) and forwards any non-MoEngage payload to the
+            NonMoEngagePushListener registered in MoEApplication, which routes
+            Plotline pushes to the Plotline SDK.
+            Note: MoEngage 14.x does not auto-merge this service, so it is
+            declared here. Default priority beats firebase-messaging's base
+            service (priority -500), keeping this the single MESSAGING_EVENT
+            receiver.
         -->
         <service
-            android:name=".push.MyFcmMessagingService"
+            android:name="com.moengage.firebase.MoEFireBaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <!--
-            MoEngage does not merge its own FCM service in SDK 14.x; push is
-            driven entirely through MoEFireBaseHelper.passPushPayload /
-            passPushToken from MoEngagePushProvider (below), which is the exact
-            handler MoEngage's MoEFireBaseMessagingService would run. Keep this
-            service as the only receiver of MESSAGING_EVENT.
-        -->
         <!-- MoEngage receivers/activities for push rendering, in-app, and rich
              landing (MoEActivity) are auto-merged from the MoEngage modules. -->
 
