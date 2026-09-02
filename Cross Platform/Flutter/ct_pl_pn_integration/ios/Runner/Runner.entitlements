@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- Push Notifications capability (aps-environment). REQUIRED on a real device
+	     for registerForRemoteNotifications() to return an APNs token; without it the
+	     app never receives didRegisterForRemoteNotificationsWithDeviceToken and both
+	     CleverTap ("APNS Push Token not found") and Plotline never get a token.
+	     For device builds also enable the Push Notifications capability in Xcode
+	     (Signing & Capabilities) so the provisioning profile includes aps-environment. -->
+	<key>aps-environment</key>
+	<string>development</string>
 	<!-- Shared with the NotificationService extension. Required for Plotline push
 	     delivery/impression analytics and rich push. Must match the App Groups
 	     capability configured in Xcode on both targets. -->

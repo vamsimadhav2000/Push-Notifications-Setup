@@ -37,11 +37,30 @@ target 'Runner' do
 end
 
 # Plotline Notification Service Extension - needs Plotline linked so it can render
-# rich pushes and report delivery/impression analytics.
+# rich pushes and report delivery/impression analytics. CTNotificationService adds
+# CleverTap rich media (image/gif/video) attachment handling to the same extension.
 target 'NotificationService' do
   use_frameworks!
 
   pod 'Plotline'
+  pod 'CTNotificationService'
+end
+
+# Plotline Notification Content Extension - renders Plotline rich push templates
+# (PLOTLINE_RICH category). Separate from NotificationContent because iOS routes
+# content extensions by category and each extension handles one category cleanly.
+target 'PLNotificationContentExt' do
+  use_frameworks!
+
+  pod 'Plotline'
+end
+
+# CleverTap Notification Content Extension - renders CleverTap rich push templates
+# (carousel, timer, advanced) inside the notification.
+target 'CTContentExt' do
+  use_frameworks!
+
+  pod 'CTNotificationContent'
 end
 
 post_install do |installer|

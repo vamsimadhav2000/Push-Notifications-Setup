@@ -4,6 +4,9 @@ PODS:
   - clevertap_plugin (4.1.0):
     - CleverTap-iOS-SDK (= 7.7.1)
     - Flutter
+  - CTNotificationContent (1.5.1):
+    - SDWebImage (~> 5.11)
+  - CTNotificationService (0.1.7)
   - Flutter (1.0.0)
   - Plotline (5.1.5)
   - plotline_engage (1.4.0):
@@ -15,6 +18,8 @@ PODS:
 
 DEPENDENCIES:
   - clevertap_plugin (from `.symlinks/plugins/clevertap_plugin/ios`)
+  - CTNotificationContent
+  - CTNotificationService
   - Flutter (from `Flutter`)
   - Plotline
   - plotline_engage (from `.symlinks/plugins/plotline_engage/ios`)
@@ -22,6 +27,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - CleverTap-iOS-SDK
+    - CTNotificationContent
+    - CTNotificationService
     - Plotline
     - SDWebImage
 
@@ -36,11 +43,13 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   CleverTap-iOS-SDK: c80354ca6bca086bd9ea242c0ad15e859b867ea5
   clevertap_plugin: 967312b3841bf78738a922ebe1becbe6085e8029
+  CTNotificationContent: d2314c3f601546bd03114e410b8a67ffd38e2696
+  CTNotificationService: 3eceea27cf0e28a2e14267bb706013363eb620c6
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   Plotline: 457dc4e6e3fdec5ff651cbf4e4c02a1c3c8d3da0
   plotline_engage: 23dc17664b7560d4a335cfdfa060663c143eaadd
   SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
 
-PODFILE CHECKSUM: fa07c52ee92a8c61b38b7d4e7a472379c3e5fab8
+PODFILE CHECKSUM: 542fb39e67fece498a4708ce1ab2add8013ca87d
 
 COCOAPODS: 1.17.0

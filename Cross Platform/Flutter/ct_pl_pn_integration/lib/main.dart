@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:clevertap_plugin/clevertap_plugin.dart';
 import 'package:flutter/material.dart';
@@ -22,16 +23,14 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 String _lastShownPayload = '';
 DateTime _lastShownAt = DateTime.fromMillisecondsSinceEpoch(0);
 
-// Deeplink captured by the killed-state handler (Android background isolate)
-// before the Flutter UI is up. Shown by HomePage once the first frame is ready.
-Map<String, dynamic>? _pendingDeeplink;
-String _pendingDeeplinkSource = '';
-
 // Must be a top-level function (runs on a background isolate on Android).
 @pragma('vm:entry-point')
 void onCleverTapKilledStateNotificationClicked(Map<String, dynamic> payload) {
-  _pendingDeeplink = payload;
-  _pendingDeeplinkSource = 'CleverTap Push (killed)';
+  // NOTE: this runs in the plugin's background isolate (clevertap_callback_dispatcher),
+  // which has its own memory, so any globals set here are NOT visible in the main
+  // isolate. Killed-state deeplinks are instead read via getAppLaunchNotification()
+  // (Android) / getInitialUrl() (iOS) in _HomePageState.initState. This handler is
+  // registered so the native side has a callback handle available if needed.
 }
 
 /// Pops a dialog showing every key-value in the deeplink/push payload, so
@@ -114,6 +113,12 @@ Future<void> main() async {
   if (_plotlineApiKey.isNotEmpty) {
     Plotline.debug(true);
     Plotline.init(_plotlineApiKey, _plotlineUserId);
+    // Confirm the native SDK actually initialized (also surfaces failures on the
+    // console), so a missing dart-define / misconfigured App Group is visible.
+    Plotline.registerInitCallback(
+      () => debugPrint('Plotline.init: SDK initialized successfully'),
+      (error) => debugPrint('Plotline.init FAILED: $error'),
+    );
     Plotline.requestPushPermission();
     Plotline.setPlotlineNotificationClickListener((properties) {
       showDeeplinkModal('Plotline Notification', properties);
@@ -162,18 +167,24 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     // Cold-start deeplinks: the navigator only exists after the first frame.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // Android killed-state capture (already stashed by the handler above).
-      if (_pendingDeeplink != null) {
-        final payload = _pendingDeeplink!;
-        final source = _pendingDeeplinkSource;
-        _pendingDeeplink = null;
-        showDeeplinkModal(source, payload);
-      } else {
-        // Cold-start launch from a CleverTap notification (iOS / non-Android).
-        final launch = await CleverTapPlugin.getAppLaunchNotification();
-        if (launch.didNotificationLaunchApp && launch.payload != null) {
-          showDeeplinkModal('CleverTap Push (launch)', launch.payload!);
+      try {
+        if (Platform.isIOS) {
+          // iOS: the plugin only exposes the launch deeplink string (getAppLaunchNotification
+          // is Android-only and throws MissingPluginException here).
+          final url = await CleverTapPlugin.getInitialUrl();
+          if (url != null) {
+            showDeeplinkModal('CleverTap Push (launch)', {'wzrk_dl': url});
+          }
+        } else {
+          // Android: full payload from the launch intent when launched from a
+          // killed-state CleverTap notification.
+          final launch = await CleverTapPlugin.getAppLaunchNotification();
+          if (launch.didNotificationLaunchApp && launch.payload != null) {
+            showDeeplinkModal('CleverTap Push (launch)', launch.payload!);
+          }
         }
+      } catch (e) {
+        debugPrint('Cold-start deeplink check failed: $e');
       }
     });
   }

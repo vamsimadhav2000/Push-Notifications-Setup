@@ -49,3 +49,5 @@ app.*.map.json
 secrets.env
 **/google-services.json
 ios/Flutter/Secrets.xcconfig
+# Generated from secrets.env by ./tool/generate_dart_defines.sh
+ios/Flutter/DartDefines.xcconfig
