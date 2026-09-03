@@ -11,6 +11,19 @@ target 'NotificationServiceExtension' do
   pod 'Plotline'
 end
 
+# Plotline Notification Content Extension - renders Plotline rich push templates
+# (PLOTLINE_RICH category). iOS routes content extensions by the payload category,
+# so this must stay separate from the CleverTap content extension.
+target 'PlContent' do
+  pod 'Plotline'
+end
+
+# CleverTap Notification Content Extension - renders CleverTap rich push templates
+# (carousel, timer, advanced) inside the notification.
+target 'CTContent' do
+  pod 'CTNotificationContent'
+end
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|

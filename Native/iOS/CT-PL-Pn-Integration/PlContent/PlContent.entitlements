@@ -2,11 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>aps-environment</key>
-	<string>development</string>
+	<!-- KEEP IN SYNC with APP_GROUP_ID in secrets.properties and the app/NSE entitlements. -->
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<!-- KEEP IN SYNC with APP_GROUP_ID in secrets.properties -->
 		<string>group.com.example.ctPlPnIntegration</string>
 	</array>
 </dict>

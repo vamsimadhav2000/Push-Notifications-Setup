@@ -24,15 +24,24 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
     private func configureCleverTap() {
         CleverTap.setDebugLevel(3)
-        CleverTap.setCredentialsWithAccountID(AppConfig.clevertapAccountID,
-                                              andToken: AppConfig.clevertapToken)
 
-        // Auto-integration (CleverTapApplication on Android): CleverTap swizzles
-        // the app delegate push callbacks (token, notification tap, background
-        // push, silent-in-foreground) so CleverTap notifications are handled
-        // automatically. Push payload routing is still done via
-        // PushProviderRegistry so Plotline gets its data too.
-        CleverTap.autoIntegrate()
+        // Some CleverTap regions (e.g. India, Singapore, EU) require the region
+        // to be passed or the SDK can't reach the correct endpoints.
+        if AppConfig.clevertapRegion.isEmpty {
+            CleverTap.setCredentialsWithAccountID(AppConfig.clevertapAccountID,
+                                                  andToken: AppConfig.clevertapToken)
+        } else {
+            CleverTap.setCredentialsWithAccountID(AppConfig.clevertapAccountID,
+                                                  token: AppConfig.clevertapToken,
+                                                  region: AppConfig.clevertapRegion)
+        }
+
+        // NOTE: `CleverTap.autoIntegrate()` is intentionally NOT used. Its
+        // app-delegate swizzle consumes application:didRegister...DeviceToken
+        // without forwarding to this AppDelegate, which would prevent the
+        // APNs token from reaching Plotline. CleverTap is therefore driven
+        // through its public manual-integration APIs below (foreground
+        // presentation, click tracking, token).
         CleverTap.sharedInstance()?.enableDeviceNetworkInfoReporting(true)
         CleverTap.sharedInstance()?.setPushNotificationDelegate(self)
 
@@ -88,6 +97,19 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
     private func registerForPush() {
         UNUserNotificationCenter.current().delegate = self
+
+        // Register the rich push category used by the CleverTap content extension
+        // (CTContent, category "CTNotification"). Must match the campaign category
+        // configured on the CleverTap dashboard for carousel/timer pushes.
+        let action1 = UNNotificationAction(identifier: "action_1", title: "Back", options: [])
+        let action2 = UNNotificationAction(identifier: "action_2", title: "Next", options: [])
+        let action3 = UNNotificationAction(identifier: "action_3", title: "View In App", options: [])
+        let category = UNNotificationCategory(identifier: "CTNotification",
+                                              actions: [action1, action2, action3],
+                                              intentIdentifiers: [],
+                                              options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
             guard granted else { return }
             DispatchQueue.main.async {
@@ -100,9 +122,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        // Fans the token out to every provider (CleverTap + Plotline), like the
-        // Android PushProviderRegistry.onNewToken.
-        PushProviderRegistry.shared.onNewToken(deviceToken)
+        CleverTap.sharedInstance()?.setPushToken(deviceToken)
+        PlotlinePush.setPushToken(deviceToken: deviceToken)
     }
 
     func application(_ application: UIApplication,
@@ -115,16 +136,29 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        PushProviderRegistry.shared.routeWillPresent(notification, completionHandler: completionHandler)
+        let request = notification.request
+        if CleverTap.sharedInstance()?.isCleverTapNotification(request.content.userInfo) == true {
+            CleverTap.handleWillPresent(notification,
+                                        withDefaultOptions: [.badge, .sound, .alert],
+                                        completionHandler: completionHandler)
+        } else if PlotlinePush.isPushPlotline(request: request) {
+            PlotlinePush.onNotificationReceived(notification: notification,
+                                                completionHandler: completionHandler)
+        } else {
+            completionHandler([.badge, .sound, .alert])
+        }
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        // CleverTap tap tracking/deeplink fires inside its auto-integrated
-        // swizzle; the registry routes the payload to the owning provider
-        // (Plotline) and we surface the custom deeplink for the UI.
-        PushProviderRegistry.shared.routeNotificationTap(response, completionHandler: completionHandler)
+        let request = response.notification.request
+        if CleverTap.sharedInstance()?.isCleverTapNotification(request.content.userInfo) == true {
+            CleverTap.handlePushNotification(request.content.userInfo, openDeepLinksInForeground: true)
+        } else if PlotlinePush.isPushPlotline(request: request) {
+            PlotlinePush.userNotificationCenter(center: center, didReceive: response)
+        }
+        completionHandler()
     }
 
     // MARK: - CleverTapPushNotificationDelegate
