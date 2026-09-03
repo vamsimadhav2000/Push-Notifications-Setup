@@ -1,13 +1,16 @@
 package com.clevertapplotlinesample
 
 import android.app.Application
+import com.clevertap.react.CleverTapApplication
+import com.clevertap.android.sdk.CleverTapAPI
+import com.clevertap.android.sdk.CleverTapAPI.LogLevel
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
 import com.facebook.react.ReactNativeApplicationEntryPoint.loadReactNative
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 
-class MainApplication : Application(), ReactApplication {
+class MainApplication : CleverTapApplication(), ReactApplication {
 
   override val reactHost: ReactHost by lazy {
     getDefaultReactHost(
@@ -21,7 +24,12 @@ class MainApplication : Application(), ReactApplication {
   }
 
   override fun onCreate() {
+    // CleverTap: out-of-the-box integration.
+    // Calling super first ensures CleverTap is initialized before anything else.
     super.onCreate()
+
+    CleverTapAPI.setDebugLevel(LogLevel.VERBOSE)
+
     loadReactNative(this)
   }
 }

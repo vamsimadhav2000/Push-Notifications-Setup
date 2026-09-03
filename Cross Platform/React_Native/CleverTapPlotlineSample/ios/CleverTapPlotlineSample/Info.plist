@@ -55,5 +55,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CleverTapAccountID</key>
+	<string>YOUR_CLEVERTAP_ACCOUNT_ID</string>
+	<key>CleverTapToken</key>
+	<string>YOUR_CLEVERTAP_TOKEN</string>
+	<key>CleverTapRegion</key>
+	<string>eu1</string>
 </dict>
 </plist>

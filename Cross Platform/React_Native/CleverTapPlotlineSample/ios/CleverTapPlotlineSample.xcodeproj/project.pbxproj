@@ -9,20 +9,84 @@
 /* Begin PBXBuildFile section */
 		0C80B921A6F3F58F76C31292 /* libPods-CleverTapPlotlineSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-CleverTapPlotlineSample.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		185AB42821E3DBF5A9D73D1C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379794F7377D93CF54999C13 /* NotificationService.swift */; };
+		21BE9769FCC8730408E980A9 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C36C96C39856D8122DDAF1D /* NotificationViewController.swift */; };
+		4000C0B754F14D11D1E312AE /* MainInterface.storyboard in Sources */ = {isa = PBXBuildFile; fileRef = 306156B66E51F4E401AFA9B0 /* MainInterface.storyboard */; };
+		4F02EC5EBA0DF56FF21EC357 /* NotificationContent.appex in Embed NotificationContent */ = {isa = PBXBuildFile; fileRef = 5BEBF5A5222C19E37BFAB582 /* NotificationContent.appex */; };
+		5F4D249003EB3772F60A7992 /* libPods-NotificationContent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F63FF615643712F993147C2 /* libPods-NotificationContent.a */; };
+		73069DB3D6CFDB4121D27925 /* libPods-NotificationService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 415F65A235D5349A3163D496 /* libPods-NotificationService.a */; };
+		748B80C31ABDC0E5908DB188 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611BD94017C337958405E736 /* Foundation.framework */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+		7759E3D8801F27EB42F36717 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 611BD94017C337958405E736 /* Foundation.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		D946802296C1222200D97BB2 /* NotificationService.appex in Embed NotificationService */ = {isa = PBXBuildFile; fileRef = 0AF857A756A37CB495F3C19C /* NotificationService.appex */; };
 		F8F8CBCF3E2FA09F091E53B3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		20D4176FAF139883AC727297 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 814FC3A1FCD75D5E1AD1CBDB;
+			remoteInfo = NotificationContent;
+		};
+		494FF818AC42728B24641291 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2002B0FC66D80E98A7E431F;
+			remoteInfo = NotificationService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		92ECCF7DBF1DCA0AF12B1516 /* Embed NotificationContent */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4F02EC5EBA0DF56FF21EC357 /* NotificationContent.appex in Embed NotificationContent */,
+			);
+			name = "Embed NotificationContent";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7086FEFE66C18B9932E0E0A /* Embed NotificationService */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D946802296C1222200D97BB2 /* NotificationService.appex in Embed NotificationService */,
+			);
+			name = "Embed NotificationService";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0837EC5F00CCE37940B341F8 /* CleverTapPlotlineSample.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = CleverTapPlotlineSample.entitlements; sourceTree = "<group>"; };
+		0AB904F8631B86A8DA5597E9 /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
+		0AF857A756A37CB495F3C19C /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* CleverTapPlotlineSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleverTapPlotlineSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CleverTapPlotlineSample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CleverTapPlotlineSample/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = CleverTapPlotlineSample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		2C36C96C39856D8122DDAF1D /* NotificationViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = NotificationContent/NotificationViewController.swift; sourceTree = "<group>"; };
+		306156B66E51F4E401AFA9B0 /* MainInterface.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = MainInterface.storyboard; path = NotificationContent/MainInterface.storyboard; sourceTree = "<group>"; };
+		379794F7377D93CF54999C13 /* NotificationService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NotificationService.swift; path = NotificationService/NotificationService.swift; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-CleverTapPlotlineSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CleverTapPlotlineSample.debug.xcconfig"; path = "Target Support Files/Pods-CleverTapPlotlineSample/Pods-CleverTapPlotlineSample.debug.xcconfig"; sourceTree = "<group>"; };
+		415F65A235D5349A3163D496 /* libPods-NotificationService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5709B34CF0A7D63546082F79 /* Pods-CleverTapPlotlineSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CleverTapPlotlineSample.release.xcconfig"; path = "Target Support Files/Pods-CleverTapPlotlineSample/Pods-CleverTapPlotlineSample.release.xcconfig"; sourceTree = "<group>"; };
+		591A4A7BD897F82412870DB1 /* Pods-NotificationContent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationContent.debug.xcconfig"; path = "Target Support Files/Pods-NotificationContent/Pods-NotificationContent.debug.xcconfig"; sourceTree = "<group>"; };
+		5BEBF5A5222C19E37BFAB582 /* NotificationContent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationContent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-CleverTapPlotlineSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CleverTapPlotlineSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		611BD94017C337958405E736 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		73DAA84737680E491A863672 /* Pods-NotificationContent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationContent.release.xcconfig"; path = "Target Support Files/Pods-NotificationContent/Pods-NotificationContent.release.xcconfig"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = CleverTapPlotlineSample/AppDelegate.swift; sourceTree = "<group>"; };
+		7F63FF615643712F993147C2 /* libPods-NotificationContent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NotificationContent.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		80B8C70CA0C5865349B08C8F /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CleverTapPlotlineSample/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -33,6 +97,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C80B921A6F3F58F76C31292 /* libPods-CleverTapPlotlineSample.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20B2773D78F2AD745D91EB53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7759E3D8801F27EB42F36717 /* Foundation.framework in Frameworks */,
+				5F4D249003EB3772F60A7992 /* libPods-NotificationContent.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7896EEAA3FB94CF6A3DF26AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				748B80C31ABDC0E5908DB188 /* Foundation.framework in Frameworks */,
+				73069DB3D6CFDB4121D27925 /* libPods-NotificationService.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +129,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				0837EC5F00CCE37940B341F8 /* CleverTapPlotlineSample.entitlements */,
 			);
 			name = CleverTapPlotlineSample;
 			sourceTree = "<group>";
@@ -56,6 +139,9 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-CleverTapPlotlineSample.a */,
+				A1C731A1ED091C63468DDCBF /* iOS */,
+				7F63FF615643712F993147C2 /* libPods-NotificationContent.a */,
+				415F65A235D5349A3163D496 /* libPods-NotificationService.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -75,6 +161,9 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				379794F7377D93CF54999C13 /* NotificationService.swift */,
+				2C36C96C39856D8122DDAF1D /* NotificationViewController.swift */,
+				306156B66E51F4E401AFA9B0 /* MainInterface.storyboard */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -85,8 +174,18 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* CleverTapPlotlineSample.app */,
+				0AF857A756A37CB495F3C19C /* NotificationService.appex */,
+				5BEBF5A5222C19E37BFAB582 /* NotificationContent.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A1C731A1ED091C63468DDCBF /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				611BD94017C337958405E736 /* Foundation.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -94,6 +193,10 @@
 			children = (
 				3B4392A12AC88292D35C810B /* Pods-CleverTapPlotlineSample.debug.xcconfig */,
 				5709B34CF0A7D63546082F79 /* Pods-CleverTapPlotlineSample.release.xcconfig */,
+				73DAA84737680E491A863672 /* Pods-NotificationContent.release.xcconfig */,
+				591A4A7BD897F82412870DB1 /* Pods-NotificationContent.debug.xcconfig */,
+				0AB904F8631B86A8DA5597E9 /* Pods-NotificationService.release.xcconfig */,
+				80B8C70CA0C5865349B08C8F /* Pods-NotificationService.debug.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -112,15 +215,57 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				B7086FEFE66C18B9932E0E0A /* Embed NotificationService */,
+				92ECCF7DBF1DCA0AF12B1516 /* Embed NotificationContent */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8FD3C0591AAE34E33EE7305F /* PBXTargetDependency */,
+				9BB39BFBA5CCBEEE2226685D /* PBXTargetDependency */,
 			);
 			name = CleverTapPlotlineSample;
 			productName = CleverTapPlotlineSample;
 			productReference = 13B07F961A680F5B00A75B9A /* CleverTapPlotlineSample.app */;
 			productType = "com.apple.product-type.application";
+		};
+		814FC3A1FCD75D5E1AD1CBDB /* NotificationContent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1E9A20CE9E4C63E3381B5F8 /* Build configuration list for PBXNativeTarget "NotificationContent" */;
+			buildPhases = (
+				5B074AAB424FEB1C3B5E044E /* [CP] Check Pods Manifest.lock */,
+				79DA701FAD5A670DA06EB8D5 /* Sources */,
+				20B2773D78F2AD745D91EB53 /* Frameworks */,
+				6AFC54381D8F6FA7EC59128F /* Resources */,
+				F37179FB82798A629232023D /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationContent;
+			productName = NotificationContent;
+			productReference = 5BEBF5A5222C19E37BFAB582 /* NotificationContent.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		F2002B0FC66D80E98A7E431F /* NotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B126F3547220B0879D0A86C /* Build configuration list for PBXNativeTarget "NotificationService" */;
+			buildPhases = (
+				41C6E0AD692D8CC82C7B15D9 /* [CP] Check Pods Manifest.lock */,
+				9DC0DB59C6063C2E30F04755 /* Sources */,
+				7896EEAA3FB94CF6A3DF26AA /* Frameworks */,
+				D5DAC34394A44FD2BA777481 /* Resources */,
+				FFB44C37A3F9AA6094E21B23 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationService;
+			productName = NotificationService;
+			productReference = 0AF857A756A37CB495F3C19C /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -149,6 +294,8 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* CleverTapPlotlineSample */,
+				F2002B0FC66D80E98A7E431F /* NotificationService */,
+				814FC3A1FCD75D5E1AD1CBDB /* NotificationContent */,
 			);
 		};
 /* End PBXProject section */
@@ -161,6 +308,20 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				F8F8CBCF3E2FA09F091E53B3 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AFC54381D8F6FA7EC59128F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5DAC34394A44FD2BA777481 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +359,50 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CleverTapPlotlineSample/Pods-CleverTapPlotlineSample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		41C6E0AD692D8CC82C7B15D9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NotificationService-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5B074AAB424FEB1C3B5E044E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NotificationContent-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
@@ -239,6 +444,40 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CleverTapPlotlineSample/Pods-CleverTapPlotlineSample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F37179FB82798A629232023D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NotificationContent/Pods-NotificationContent-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NotificationContent/Pods-NotificationContent-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NotificationContent/Pods-NotificationContent-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FFB44C37A3F9AA6094E21B23 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NotificationService/Pods-NotificationService-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NotificationService/Pods-NotificationService-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NotificationService/Pods-NotificationService-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -250,15 +489,72 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		79DA701FAD5A670DA06EB8D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21BE9769FCC8730408E980A9 /* NotificationViewController.swift in Sources */,
+				4000C0B754F14D11D1E312AE /* MainInterface.storyboard in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9DC0DB59C6063C2E30F04755 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				185AB42821E3DBF5A9D73D1C /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8FD3C0591AAE34E33EE7305F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = NotificationService;
+			target = F2002B0FC66D80E98A7E431F /* NotificationService */;
+			targetProxy = 494FF818AC42728B24641291 /* PBXContainerItemProxy */;
+		};
+		9BB39BFBA5CCBEEE2226685D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = NotificationContent;
+			target = 814FC3A1FCD75D5E1AD1CBDB /* NotificationContent */;
+			targetProxy = 20D4176FAF139883AC727297 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		0CE116DAFC3F3C004712725A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 591A4A7BD897F82412870DB1 /* Pods-NotificationContent.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NotificationContent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clevertapplotlinesample.NotificationContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-CleverTapPlotlineSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CleverTapPlotlineSample/CleverTapPlotlineSample.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = CleverTapPlotlineSample/Info.plist;
@@ -273,7 +569,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.clevertapplotlinesample;
 				PRODUCT_NAME = CleverTapPlotlineSample;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -289,6 +585,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CleverTapPlotlineSample/CleverTapPlotlineSample.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = CleverTapPlotlineSample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -302,12 +599,61 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.clevertapplotlinesample;
 				PRODUCT_NAME = CleverTapPlotlineSample;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		4A4011BA260EB27342A20BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80B8C70CA0C5865349B08C8F /* Pods-NotificationService.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clevertapplotlinesample.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4A8A31B566D788CDCC2AB7FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AB904F8631B86A8DA5597E9 /* Pods-NotificationService.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clevertapplotlinesample.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -467,6 +813,31 @@
 			};
 			name = Release;
 		};
+		C0B399C86BCD9593227CF4D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73DAA84737680E491A863672 /* Pods-NotificationContent.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NotificationContent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clevertapplotlinesample.NotificationContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -484,6 +855,24 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9B126F3547220B0879D0A86C /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A8A31B566D788CDCC2AB7FA /* Release */,
+				4A4011BA260EB27342A20BB5 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B1E9A20CE9E4C63E3381B5F8 /* Build configuration list for PBXNativeTarget "NotificationContent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0B399C86BCD9593227CF4D9 /* Release */,
+				0CE116DAFC3F3C004712725A /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

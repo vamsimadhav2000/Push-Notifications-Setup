@@ -1,6 +1,34 @@
 PODS:
   - boost (1.84.0):
     - ReactNativeDependencies
+  - CleverTap-iOS-SDK (7.8.1):
+    - SDWebImage (~> 5.11)
+  - clevertap-react-native (4.3.0):
+    - CleverTap-iOS-SDK (= 7.8.1)
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-bridging
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
+  - CTNotificationContent (1.5.1):
+    - SDWebImage (~> 5.11)
+  - CTNotificationService (0.1.7)
   - DoubleConversion (1.1.6):
     - ReactNativeDependencies
   - fast_float (8.0.0):
@@ -1673,6 +1701,9 @@ PODS:
     - React-utils (= 0.87.1)
     - ReactNativeDependencies
   - ReactNativeDependencies (0.87.1)
+  - SDWebImage (5.21.7):
+    - SDWebImage/Core (= 5.21.7)
+  - SDWebImage/Core (5.21.7)
   - SocketRocket (0.7.1):
     - ReactNativeDependencies
   - Yoga (0.0.0):
@@ -1680,6 +1711,10 @@ PODS:
 
 DEPENDENCIES:
   - boost (from `build/rndeps-facades/boost`)
+  - CleverTap-iOS-SDK
+  - clevertap-react-native (from `../node_modules/clevertap-react-native`)
+  - CTNotificationContent
+  - CTNotificationService
   - DoubleConversion (from `build/rndeps-facades/DoubleConversion`)
   - fast_float (from `build/rndeps-facades/fast_float`)
   - FBLazyVector (from `build/rncore-facades/FBLazyVector`)
@@ -1764,12 +1799,22 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios/ReactCodegen`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeDependencies (from `../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)
+  - SDWebImage
   - SocketRocket (from `build/rndeps-facades/SocketRocket`)
   - Yoga (from `build/rncore-facades/Yoga`)
+
+SPEC REPOS:
+  trunk:
+    - CleverTap-iOS-SDK
+    - CTNotificationContent
+    - CTNotificationService
+    - SDWebImage
 
 EXTERNAL SOURCES:
   boost:
     :path: build/rndeps-facades/boost
+  clevertap-react-native:
+    :path: "../node_modules/clevertap-react-native"
   DoubleConversion:
     :path: build/rndeps-facades/DoubleConversion
   fast_float:
@@ -1944,6 +1989,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 8502bfdc46e2804408af2e163049ece181009af4
+  CleverTap-iOS-SDK: 5cdc6452d832182516340f76444f757962b75db8
+  clevertap-react-native: a624bfe6c8b965d44d283c7f0e2a099cbad1d212
+  CTNotificationContent: d2314c3f601546bd03114e410b8a67ffd38e2696
+  CTNotificationService: 3eceea27cf0e28a2e14267bb706013363eb620c6
   DoubleConversion: 501a575c40c0b50c89685762dd3e415e6bb26fb0
   fast_float: 7c925d1cebf8328d4018d061f49377e9f887e3b4
   FBLazyVector: e08a27053b503eeb756ea4bd75d570d2f2522a1b
@@ -2027,9 +2076,10 @@ SPEC CHECKSUMS:
   ReactCodegen: 13d2ebfe2d8f1200052509b4fc4abf7a6825a7fc
   ReactCommon: 749169e12aa3461a3df3656a00e48dbe0456b2d6
   ReactNativeDependencies: 94c922c39e0e6150ee9ad05e2ca1946e0ef55783
+  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
   SocketRocket: 37aec555668fb852ec12e3c0de59a86ca58f0871
   Yoga: d1c536142c5ff8ec8cd856ab2a7c227a1d875c8e
 
-PODFILE CHECKSUM: cebf13e1e0ed265092dff37fba510a2b81a5af22
+PODFILE CHECKSUM: fd101dd8e56fca5de8be95967218d6a78a40cb01
 
 COCOAPODS: 1.15.2

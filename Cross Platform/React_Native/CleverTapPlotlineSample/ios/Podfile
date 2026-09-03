@@ -23,6 +23,13 @@ target 'CleverTapPlotlineSample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # CleverTap React Native SDK (pulls in CleverTap-iOS-SDK 7.8.1)
+  # CleverTap-iOS-SDK is a Swift pod that imports SDWebImage; both need
+  # modular headers when integrated as static libraries (no use_frameworks!).
+  pod 'clevertap-react-native', :path => '../node_modules/clevertap-react-native', :modular_headers => true
+  pod 'CleverTap-iOS-SDK', :modular_headers => true
+  pod 'SDWebImage', :modular_headers => true
+
   post_install do |installer|
     react_native_post_install(
       installer,
@@ -31,4 +38,15 @@ target 'CleverTapPlotlineSample' do
       # :ccache_enabled => true
     )
   end
+end
+
+# CleverTap iOS Rich Push Notifications extensions.
+# Notification Service Extension: downloads & attaches rich media to pushes.
+# Notification Content Extension: renders rich push templates (carousel, etc).
+target 'NotificationService' do
+  pod 'CTNotificationService', :modular_headers => true
+end
+
+target 'NotificationContent' do
+  pod 'CTNotificationContent', :modular_headers => true
 end

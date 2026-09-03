@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Required for push notification permission prompt on Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
       android:name=".MainApplication"
@@ -11,6 +14,35 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="${usesCleartextTraffic}"
       android:supportsRtl="true">
+
+      <!-- ============ CleverTap Auto-Integration ============ -->
+      <!-- CleverTap Account ID / Project ID -->
+      <meta-data
+          android:name="CLEVERTAP_ACCOUNT_ID"
+          android:value="YOUR_CLEVERTAP_ACCOUNT_ID" />
+      <!-- CleverTap Token / Project Token -->
+      <meta-data
+          android:name="CLEVERTAP_TOKEN"
+          android:value="YOUR_CLEVERTAP_TOKEN" />
+      <!-- Region code: see https://developer.clevertap.com/docs/idc -->
+      <meta-data
+          android:name="CLEVERTAP_REGION"
+          android:value="eu1" />
+      <!-- Custom small notification icon (name of a drawable resource) -->
+      <meta-data
+          android:name="CLEVERTAP_NOTIFICATION_ICON"
+          android:value="ic_launcher" />
+      <!-- ==================================================== -->
+
+      <!-- CleverTap FCM Message Listener Service (auto-integrated push) -->
+      <service
+          android:name="com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService"
+          android:exported="true">
+          <intent-filter>
+              <action android:name="com.google.firebase.MESSAGING_EVENT" />
+          </intent-filter>
+      </service>
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
